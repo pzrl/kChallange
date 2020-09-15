@@ -1,0 +1,105 @@
+<main>
+    <div>
+        <h2>Albums</h2>
+
+        <div *ngIf="arrTotalAlbums === null">
+            <p>Upload some albums to the database. </p>
+            <p>Before uploading them, be sure that the artist who created the album is already saved in our database.
+            </p>
+        </div>
+        <table>
+            <thead>
+                <th class="cellBig">
+                    Title
+                    <a (click)="orderUp('title')"><img src="../../assets/up.png"></a>
+                    <a (click)="orderDown('title')"><img src="../../assets/down.png"></a>
+                </th>
+                <th class="cellBig">
+                    Artist
+                    <a (click)="orderUp('artistName')"><img src="../../assets/up.png"></a>
+                    <a (click)="orderDown('artistName')"><img src="../../assets/down.png"></a>
+                </th>
+                <th class="cellMedium">Cover</th>
+                <th class="cellSmall">
+                    Year
+                    <a (click)="orderUp('year')"><img src="../../assets/up.png"></a>
+                    <a (click)="orderDown('year')"><img src="../../assets/down.png"></a>
+                </th>
+                <th class="cellMedium">
+                    Genre
+                    <a (click)="orderUp('genre')"><img src="../../assets/up.png"></a>
+                    <a (click)="orderDown('genre')"><img src="../../assets/down.png"></a>
+                </th>
+                <th class="cellSmall"></th>
+                <th class="cellSmall"></th>
+                <th class="cellSmall"></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let album of arrFiveAlbums; let i = index" [id]="album?.id">
+                    <td class="cellBig">
+                        <p>{{album?.title}}</p>
+                    </td>
+                    <td class="cellBig">
+                        <p class="codigo">{{album?.artistName}}</p>
+                    </td>
+                    <td class="cellMedium imagen">
+                        <div class="imgContainer">
+                            <img src="{{album?.coverUrl}}">
+                        </div>
+                    </td>
+                    <td class="cellSmall">
+                        <p>{{album?.year}}</p>
+                    </td>
+                    <td class="cellMedium">
+                        <p>{{album?.genre}}</p>
+                    </td>
+                    <td class="cellSmall">
+                        <a class="btnView" (click)="viewAlbum(album?._id)">View</a>
+                    </td>
+                    <td class="cellSmall">
+                        <a class="btnEdit" (click)="editAlbum(album?._id)">Edit</a>
+                    </td>
+                    <td class="cellSmall">
+                        <a class="btnDelete" (click)="deleteAlbum(album?._id)">Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cellBig"></td>
+                    <td class="cellBig"></td>
+                    <td class="cellMedium"></td>
+                    <td class="cellSmall"></td>
+                    <td class="cellMedium"></td>
+                    <td class="cellSmall"></td>
+                    <td class="cellSmall"></td>
+                    <td class="cellSmall">
+                        <a class="numPage" [ngClass]="{'numPageSelected': pageSelected === i + 1}"
+                            *ngFor="let page of arrNumPages; let i = index" (click)="changePage(i + 1)">{{i + 1}}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cellBig" (click)="newAlbum()">
+                        <a class="btnNuevo" title="Add album" (click)="newAlbum()">+</a>
+                        <a class="btnAdd" (click)="newAlbum()">Add album</a>
+                    </td>
+                    <td class="cellBig"
+                        title="You can download the sheet with for the albums bulk upload on the right side of this row.">
+                        <label class="btnBulk" for="bulkLoadInput"><a class="btnNuevo">++</a>Bulk Load</label>
+                        <input class="bulkLoadInput" id="bulkLoadInput" type="file" (change)="onChangeFile($event)" />
+                    </td>
+                    <td class="cellMedium">
+                        <a class="btnNew btnConfirm" *ngIf="data != undefined" (click)="newAlbums()">Confirm Load</a>
+                    </td>
+                    <td class="cellSmall"></td>
+                    <td class="cellMedium"></td>
+                    <td class="cellSmall"></td>
+                    <td class="cellSmall"></td>
+                    <td class="cellSmall">
+                        <a class="btnDownloadSheet" href="../../assets/albumsBulkLoadSheet.xlsx">Download Bulk<br> Load
+                            Sheet</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</main>

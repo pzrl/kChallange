@@ -1,0 +1,16 @@
+mat-form-field {
+  margin-right: 12px;
+  display: block;
+}
+mat-datepicker-toggle {
+    color: rgb(48, 48, 48);
+    margin-left: -35px;
+}
+.matInput {
+    margin-top: -10px;
+    height: 30px;
+    width: 300px;
+}
+.cdk-overlay-pane  {
+    height: 1200px;
+}
