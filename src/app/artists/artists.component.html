@@ -1,0 +1,96 @@
+<main>
+    <div>
+        <h2>Artists</h2>
+
+        <div *ngIf="arrTotalArtists === null">
+            <p>Upload some artists to the database.</p>
+        </div>
+
+        <table>
+            <thead>
+                <th class="cellBig">
+                    Name
+                    <a (click)="orderUp('name')"><img src="../../assets/up.png"></a>
+                    <a (click)="orderDown('name')"><img src="../../assets/down.png"></a>
+                </th>
+                <th class="cellMedium">Photo</th>
+                <th class="cellMedium">
+                    Birth Date
+                    <a (click)="orderUp('birthdate')"><img src="../../assets/up.png"></a>
+                    <a (click)="orderDown('birthdate')"><img src="../../assets/down.png"></a>
+                </th>
+                <th class="cellMedium">
+                    Death Date
+                    <a (click)="orderUp('deathDate')"><img src="../../assets/up.png"></a>
+                    <a (click)="orderDown('deathDate')"><img src="../../assets/down.png"></a>
+                </th>
+                <th class="cellSmall"></th>
+                <th class="cellSmall"></th>
+                <th class="cellSmall"></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let artist of arrFiveArtists; let i = index" [id]="artist?.id">
+                    <td class="cellBig">
+                        <p>{{artist?.name}}</p>
+                    </td>
+                    <td class="cellMedium imagen">
+                        <div class="imgContainer">
+                            <img src="{{artist?.photoUrl}}">
+                        </div>
+                    </td>
+                    <td class="cellMedium">
+                        <p>{{artist?.displayBirthdate}}</p>
+                    </td>
+                    <td class="cellMedium">
+                        <p>{{artist?.deathDate !== null && artist?.deathDate != '2100-01-01T00:00:00.000Z'? artist?.displayDeathDate : 'Still alive'}}
+                        </p>
+                    </td>
+                    <td class="cellSmall">
+                        <a class="btnView" (click)="viewArtist(artist?._id)">View</a>
+                    </td>
+                    <td class="cellSmall">
+                        <a class="btnEdit" (click)="editArtist(artist?._id)">Edit</a>
+                    </td>
+                    <td class="cellSmall">
+                        <a class="btnDelete" (click)="deleteArtist(artist?._id)">Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cellBig"></td>
+                    <td class="cellMedium"></td>
+                    <td class="cellMedium"></td>
+                    <td class="cellMedium"></td>
+                    <td class="cellSmall"></td>
+                    <td class="cellSmall"></td>
+                    <td class="cellSmall">
+                        <a class="numPage" [ngClass]="{'numPageSelected': pageSelected === i + 1}"
+                            *ngFor="let page of arrNumPages; let i = index" (click)="changePage(i + 1)">{{i + 1}}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cellBig" (click)="newArtist()">
+                        <a class="btnNuevo" title="Add One Artist">+</a>
+                        <a class="btnAdd">Add Artist</a>
+                    </td>
+                    <td class="cellMedium">
+                        <label class="btnBulk" for="bulkLoadInput"
+                            title="You can download the sheet with for the artists bulk upload on the right side of this row."><a
+                                class="btnNuevo">++</a>Bulk Load</label>
+                        <input class="bulkLoadInput" id="bulkLoadInput" type="file" (change)="onChangeFile($event)" />
+                    </td>
+                    <td class="cellSmall">
+                        <a class="btnNew btnConfirm" *ngIf="data != undefined" (click)="newArtists()">Confirm Load</a>
+                    </td>
+                    <td class="cellMedium"></td>
+                    <td class="cellSmall"></td>
+                    <td class="cellSmall"></td>
+                    <td class="cellSmall">
+                        <a class="btnDownloadSheet" href="../../assets/artistsBulkLoadSheet.xlsx">Download Bulk<br> Load
+                            Sheet</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</main>

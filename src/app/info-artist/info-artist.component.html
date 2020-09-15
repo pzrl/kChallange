@@ -1,0 +1,65 @@
+<main>
+    <h2 *ngIf="artist === null && action !== 'new'">Artist not found</h2>
+    <div *ngIf="artist !== null || action === 'new'">
+        <h2>Artist</h2>
+        <div class="actionButtons" *ngIf="action != 'new'">
+            <a *ngIf="action == 'edit'" (click)="changeView('view')">Switch to view</a>
+            <a *ngIf="action == 'view'" (click)="changeView('edit')">Switch to edit</a>
+        </div>
+    </div>
+
+    <form [formGroup]="artistForm" (ngSubmit)="submitArtist(artistForm.value)" *ngIf="formInitialized">
+        <div class="infoImage">
+            <img [src]="artistForm.value.photoUrl.length > 0 ? artistForm.value.photoUrl : '../../assets/usuario.svg'">
+        </div>
+
+        <div class="info">
+            <label>Name</label>
+            <input class="inputRegular" type="text" placeholder="Name" formControlName="name">
+            <p class="error" *ngIf="artistForm.controls.name.errors?.required && artistForm.controls.name.touched">
+                Name field must be filled.</p>
+
+            <label>Photo Url</label>
+            <input class="inputRegular" type="text" placeholder="Photo Url" formControlName="photoUrl">
+            <p class="error"
+                *ngIf="artistForm.controls.photoUrl.errors?.required && artistForm.controls.photoUrl.touched">
+                Photo Url field must be filled.</p>
+
+            <mat-form-field color="red">
+                <mat-label>Birth Date</mat-label><br>
+                <input class="matInput" matInput [matDatepicker]="picker1" formControlName="birthdate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <p class="error"
+                *ngIf="artistForm.controls.birthdate.errors?.required && artistForm.controls.birthdate.touched">
+                Birth Date field must be filled.</p>
+            <p class="error"
+                *ngIf="artistForm.controls.birthdate.touched && artistForm.controls.birthdate.errors?.datevalidator">
+                The date must be older than 01/01/1909 and newer than 31/12/2030.</p>
+
+            <mat-form-field color="accent" appearance="fill">
+                <mat-label>Death Date</mat-label><br>
+                <input class="matInput" matInput [matDatepicker]="picker2" formControlName="deathDate">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2 color="primary"></mat-datepicker>
+            </mat-form-field>
+            <p class="error"
+                *ngIf="artistForm.controls.deathDate.touched && artistForm.controls.deathDate.errors?.datevalidator">
+                The date must be older than 01/01/1909 and newer than 31/12/2030.</p>
+
+            <div *ngIf="action != 'new'">
+                <label>Created At</label>
+                <input class="inputRegular" type="text" [value]="artist?._createdAt" disabled>
+                <label>Updated At</label>
+                <input class="inputRegular" type="text" [value]="artist?._updatedAt" disabled>
+            </div>
+        </div>
+
+        <div class="btnContainer" *ngIf="action != 'view'">
+            <input class="btnNew" type="submit" [value]="'Save ' + (action == 'new' ? 'artist' : 'changes')"
+                [disabled]="!artistForm.controls.name.errors?.required && artistForm.controls.photoUrl.errors?.required && artistForm.controls.birthdate.errors?.datevalidator">
+        </div>
+
+    </form>
+</main>
